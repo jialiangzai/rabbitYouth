@@ -17,6 +17,9 @@ export default {
   getters: {
   },
   mutations: {
+    updateToken (state, payload) {
+      state.profile.token = payload
+    }
   },
   actions: {
   }
