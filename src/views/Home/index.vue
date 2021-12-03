@@ -6,6 +6,8 @@
         <HomeCategory />
         <!-- banner轮播图 -->
         <HomeBanner />
+        <!-- 新鲜好物 -->
+        <HomePanelNew />
       </div>
     </div>
   </div>
@@ -16,11 +18,13 @@
 <script>
 import HomeCategory from './components/home-category.vue'
 import HomeBanner from './components/home-banner.vue'
+import HomePanelNew from './components/home-new.vue'
 export default {
   name: 'xtx-home-page',
   components: {
     HomeCategory,
-    HomeBanner
+    HomeBanner,
+    HomePanelNew
   }
 }
 </script>
