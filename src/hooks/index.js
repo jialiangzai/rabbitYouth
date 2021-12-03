@@ -16,7 +16,13 @@ export function useObserver (ajaxFn) {
         // 唯一不同点 发送请求
         ajaxFn()
       }
-    })
+    },
+    // 扩展接口
+    // 进入当前元素可视区域的比例是多少才执行回调 0-1 值越大 代表需要进入的面积越大
+    // 阈值
+    // threshold ?: number | number[]
+    { threshold: 0 }
+  )
   // 一定要返回检测元素如果不返回那不到ref对象模板也不能使用
   return { target }
 }
