@@ -1,6 +1,9 @@
 
 import Skeleton from '@/components/Skeleton'
-const cpp = [Skeleton]
+import Slider from '@/components/Slider'
+import More from '@/components/More'
+
+const cpp = [Skeleton, Slider, More]
 // 批量注册全局组件
 export default {
   // 注意参数是vue实例对象
