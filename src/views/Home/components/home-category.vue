@@ -1,18 +1,45 @@
 <template>
   <div class="home-category">
     <ul class="menu">
-      <!-- 一级 -->
-      <li v-for="item in list" :key="item.id" @mouseenter="cateId = item.id">
-        <RouterLink to="/">{{ item.name }}</RouterLink>
-        <!-- 二级 -->
-        <template v-if="item.children">
-          <RouterLink v-for="sub in item.children" :key="sub.id" to="/">
-            {{ sub.name }}
-          </RouterLink>
-        </template>
-      </li>
+      <!-- 一级 有数据时-->
+      <template v-if="list.length">
+        <li v-for="item in list" :key="item.id" @mouseenter="cateId = item.id">
+          <RouterLink to="/">{{ item.name }}</RouterLink>
+          <!-- 二级 -->
+          <template v-if="item.children">
+            <RouterLink v-for="sub in item.children" :key="sub.id" to="/">
+              {{ sub.name }}
+            </RouterLink>
+          </template>
+        </li>
+      </template>
+      <!-- 无数据显示骨架屏 -->
+      <template v-else>
+        <ul>
+          <li v-for="v in 9" :key="v">
+            <XtxSkeleton
+              :width="40"
+              :height="20"
+              bg="#ccc"
+              style="margin-right: 10px"
+            />
+            <XtxSkeleton
+              :width="50"
+              :height="20"
+              bg="#ccc"
+              style="margin-right: 10px"
+            />
+            <XtxSkeleton
+              :width="50"
+              :height="20"
+              bg="#ccc"
+              style="margin-right: 10px"
+            />
+          </li>
+        </ul>
+      </template>
     </ul>
-    <!-- 弹层 -->
+    <!-- 弹层 不需要骨架屏因为他是在有数据之后才显示的-->
     <div class="layer">
       <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
       <ul v-if="getGoods">
