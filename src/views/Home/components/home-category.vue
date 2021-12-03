@@ -2,7 +2,7 @@
   <div class="home-category">
     <ul class="menu">
       <!-- 一级 -->
-      <li v-for="item in list" :key="item.id">
+      <li v-for="item in list" :key="item.id" @mouseenter="cateId = item.id">
         <RouterLink to="/">{{ item.name }}</RouterLink>
         <!-- 二级 -->
         <template v-if="item.children">
@@ -12,16 +12,34 @@
         </template>
       </li>
     </ul>
+    <!-- 弹层 -->
+    <div class="layer">
+      <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
+      <ul v-if="getGoods">
+        <li v-for="i in getGoods" :key="i.id">
+          <RouterLink to="/">
+            <img :src="i.picture" :alt="i.name" />
+            <div class="info">
+              <p class="name ellipsis-2">{{ i.name }}</p>
+              <p class="desc ellipsis">{{ i.desc }}</p>
+              <p class="price"><i>¥</i>{{ i.price }}</p>
+            </div>
+          </RouterLink>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 export default {
   name: 'HomeCategory',
   setup () {
     const store = useStore()
+    // 总数据存在，根据分类菜单id找对应的对象.goods
+    const cateId = ref(null)
     // 处理二级只需前两个数据
     const list = computed(() => {
       return store.state.category.list.map(item => {
@@ -35,7 +53,11 @@ export default {
       })
     })
     // console.log(list, 111)
-    return { list }
+    const getGoods = computed(() => {
+      // 异步请求所以存在id对应的goods为undefined情况
+      return store.state.category.list.find(item => item.id === cateId.value)?.goods
+    })
+    return { list, getGoods, cateId }
   }
 }
 </script>
