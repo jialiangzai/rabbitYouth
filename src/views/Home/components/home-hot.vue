@@ -1,5 +1,5 @@
 <template>
-  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
+  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过" ref="target">
     <ul class="goods-list">
       <li v-for="item in goods" :key="item.id">
         <RouterLink to="/">
@@ -18,21 +18,36 @@
 <script>
 import HomePanel from './home-panel'
 import { findHot } from '@/api/home'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
+import { useIntersectionObserver } from '@vueuse/core'
 export default {
   name: 'HomeHot',
   components: { HomePanel },
   setup () {
     const goods = ref([])
+    // 检测ref
+    const target = ref(null)
     const getGoods = async () => {
       const { result } = await findHot()
       // console.log(result)
       goods.value = result
     }
-    onMounted(() => {
-      getGoods()
-    })
-    return { goods, getGoods }
+    // onMounted(() => {
+    //   getGoods()
+    // })
+    // target 是观察的目标dom对象，必须是dom对象，而且是vue3.0方式绑定的dom对象
+    const { stop } = useIntersectionObserver(target,
+      ([{ isIntersecting }], elemOb) => {
+        console.log('组件进入了视口', isIntersecting)
+        // 正式进入了视口
+        if (isIntersecting) {
+          // 停止监听元素
+          stop()
+          // 发送请求
+          getGoods()
+        }
+      })
+    return { goods, getGoods, target }
   }
 }
 </script>
