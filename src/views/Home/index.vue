@@ -1,5 +1,6 @@
 <template>
   <div class="xtx-home-page">首页</div>
+  <!-- <p>测试样式</p> -->
 </template>
 
 <script>
@@ -8,4 +9,10 @@ export default {
 }
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang='less'>
+// style标签内使用@用~
+// @import "~@/styles/variables.less";
+// p {
+//   color: @helpColor;
+// }
+</style>
