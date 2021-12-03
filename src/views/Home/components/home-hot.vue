@@ -19,14 +19,13 @@
 import HomePanel from './home-panel'
 import { findHot } from '@/api/home'
 import { ref } from 'vue'
-import { useIntersectionObserver } from '@vueuse/core'
+// import { useIntersectionObserver } from '@vueuse/core'
+import { useObserver } from '@/hooks/index'
 export default {
   name: 'HomeHot',
   components: { HomePanel },
   setup () {
     const goods = ref([])
-    // 检测ref
-    const target = ref(null)
     const getGoods = async () => {
       const { result } = await findHot()
       // console.log(result)
@@ -35,18 +34,7 @@ export default {
     // onMounted(() => {
     //   getGoods()
     // })
-    // target 是观察的目标dom对象，必须是dom对象，而且是vue3.0方式绑定的dom对象
-    const { stop } = useIntersectionObserver(target,
-      ([{ isIntersecting }], elemOb) => {
-        console.log('组件进入了视口', isIntersecting)
-        // 正式进入了视口
-        if (isIntersecting) {
-          // 停止监听元素
-          stop()
-          // 发送请求
-          getGoods()
-        }
-      })
+    const { target } = useObserver(getGoods)
     return { goods, getGoods, target }
   }
 }

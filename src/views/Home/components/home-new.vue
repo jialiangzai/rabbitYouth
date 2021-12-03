@@ -1,5 +1,5 @@
 <template>
-  <HomePanel title="新鲜好物" subTitle="新鲜出炉 品质靠谱">
+  <HomePanel title="新鲜好物" subTitle="新鲜出炉 品质靠谱" ref="target">
     <template #right>
       <XtxMore />
     </template>
@@ -19,7 +19,9 @@
 <script>
 import HomePanel from './home-panel.vue'
 import { findNew } from '@/api/home'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import { useObserver } from '@/hooks/index'
+
 export default {
   components: {
     HomePanel
@@ -31,12 +33,15 @@ export default {
       // console.log(result, 123)
       listNews.value = result
     }
-    onMounted(() => {
-      getNews()
-    })
+    // onMounted(() => {
+    //   getNews()
+    // })
+    const { target } = useObserver(getNews)
+
     return {
       listNews,
-      getNews
+      getNews,
+      target
     }
   }
 }
