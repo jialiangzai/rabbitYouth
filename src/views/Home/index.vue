@@ -1,14 +1,11 @@
 <template>
-  <div>首页</div>
+  <div class="xtx-home-page">首页</div>
 </template>
 
 <script>
 export default {
-  setup () {
-    return {}
-  }
+  name: 'xtx-home-page'
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style scoped lang='less'></style>

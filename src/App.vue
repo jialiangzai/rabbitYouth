@@ -1,4 +1,5 @@
 <template>
+  <!-- 一级路由 -->
   <router-view />
   <!-- <p>{{ $store.state.user.profile }}</p>
   <button @click="$store.commit('user/updateToken', 'tokem000000')">
