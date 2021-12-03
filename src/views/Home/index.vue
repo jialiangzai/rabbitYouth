@@ -8,6 +8,8 @@
         <HomeBanner />
         <!-- 新鲜好物 -->
         <HomePanelNew />
+        <!-- 人气推荐 -->
+        <HomePanelHot />
       </div>
     </div>
   </div>
@@ -19,12 +21,14 @@
 import HomeCategory from './components/home-category.vue'
 import HomeBanner from './components/home-banner.vue'
 import HomePanelNew from './components/home-new.vue'
+import HomePanelHot from './components/home-hot.vue'
 export default {
   name: 'xtx-home-page',
   components: {
     HomeCategory,
     HomeBanner,
-    HomePanelNew
+    HomePanelNew,
+    HomePanelHot
   }
 }
 </script>
