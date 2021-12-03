@@ -1,6 +1,7 @@
 <template>
   <div class="xtx-home-page">首页</div>
   <!-- <p>测试样式</p> -->
+  <!-- <button @click="$store.dispatch('category/getListCate')">商品</button> -->
 </template>
 
 <script>

@@ -1,6 +1,7 @@
 import { createStore, createLogger } from 'vuex'
 import user from './modules/user'
 import cart from './modules/cart'
+import category from '@/store/modules/category'
 // 第三方
 import createPersistedstate from 'vuex-persistedstate'
 // 创建vuex仓库并导出
@@ -17,7 +18,8 @@ export default createStore({
   modules: {
     // 分模块
     user,
-    cart
+    cart,
+    category
   },
   getters: {
     // vuex的计算属性
