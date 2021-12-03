@@ -1,5 +1,5 @@
 <template>
-  <div class="app-header-sticky" :class="{ show: isShow }">
+  <div class="app-header-sticky" :class="{ show: y > 100 }">
     <div class="container">
       <RouterLink class="logo" to="/" />
       <HeaderNav />
@@ -13,24 +13,27 @@
 
 <script>
 import HeaderNav from './header-nav'
-import { ref } from 'vue'
+// import { ref } from 'vue'
+import { useWindowScroll } from '@vueuse/core'
 export default {
   name: 'AppHeaderSticky',
   components: { HeaderNav },
   setup () {
-    const isShow = ref(false)
-    window.onscroll = () => {
-      // 获取html页面的滚动高度
-      const shs = document.documentElement.scrollTop
-      if (shs > 100) {
-        isShow.value = true
-      } else {
-        isShow.value = false
-      }
-    }
-    return {
-      isShow
-    }
+    // const isShow = ref(false)
+    // window.onscroll = () => {
+    //   // 获取html页面的滚动高度
+    //   const shs = document.documentElement.scrollTop
+    //   if (shs > 100) {
+    //     isShow.value = true
+    //   } else {
+    //     isShow.value = false
+    //   }
+    // }
+    // return {
+    //   isShow
+    // }
+    const { y } = useWindowScroll()
+    return { y }
   }
 }
 </script>
