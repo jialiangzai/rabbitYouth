@@ -18,6 +18,8 @@ import TopNav from './components/topnav.vue'
 import XtxHeader from './components/header.vue'
 import XtxFooter from './components/footer.vue'
 import XtxHeaderSticky from './components/header-sticky.vue'
+// 吸顶和header组件复用导致请求两次
+import { useStore } from 'vuex'
 export default {
   name: 'xtx-layout',
   components: {
@@ -25,6 +27,12 @@ export default {
     XtxHeader,
     XtxFooter,
     XtxHeaderSticky
+  },
+  setup () {
+    const store = useStore()
+    store.dispatch('category/getListCate')
+    return {
+    }
   }
 }
 </script>

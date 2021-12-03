@@ -18,7 +18,7 @@ export default {
     const BannerLists = ref([])
     const getBanner = async () => {
       const { result } = await findBanner()
-      console.log(result)
+      // console.log(result)
       BannerLists.value = result
     }
     getBanner()

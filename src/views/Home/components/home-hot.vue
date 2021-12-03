@@ -26,7 +26,7 @@ export default {
     const goods = ref([])
     const getGoods = async () => {
       const { result } = await findHot()
-      console.log(result)
+      // console.log(result)
       goods.value = result
     }
     onMounted(() => {

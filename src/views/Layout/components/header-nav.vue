@@ -40,7 +40,7 @@ export default {
   name: 'AppHeaderNav',
   setup () {
     const store = useStore()
-    store.dispatch('category/getListCate')
+    // store.dispatch('category/getListCate')
     const list = computed(() => {
       return store.state.category.list
     })
