@@ -22,6 +22,8 @@ const routes = [
 ]
 
 const router = createRouter({
+  // 每次切换路由重置滚动条
+  scrollBehavior: () => ({ left: 0, top: 0 }),
   // 使用hash方式实现路由
   history: createWebHashHistory(),
   // 配置路由规则，写法和之前一样

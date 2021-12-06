@@ -13,7 +13,16 @@
         <XtxBreadItem to="/">{{ goods.name }}</XtxBreadItem>
       </XtxBread>
       <!-- 商品信息 -->
-      <div class="goods-info"></div>
+      <div class="goods-info">
+        <!-- 新增结构 -->
+        <!-- 图片预览区 mainPictures-->
+        <div class="media">
+          <!-- 预览 -->
+          <GoodsImage :imgs="goods.mainPictures" />
+        </div>
+        <!-- 商品信息区 -->
+        <div class="spec"></div>
+      </div>
       <!-- 商品详情 -->
       <div class="goods-footer">
         <div class="goods-article">
@@ -31,10 +40,15 @@
 <script>
 import { findGoods } from '@/api/goods'
 import { useRoute } from 'vue-router'
+// 预览区
+import GoodsImage from './components/goods-image.vue'
 import { ref } from 'vue-demi'
 
 export default {
   name: 'XtxGoodsPage',
+  components: {
+    GoodsImage
+  },
   setup () {
     const goods = ref({})
     const route = useRoute()
@@ -57,6 +71,16 @@ export default {
   min-height: 600px;
   background: #fff;
   display: flex;
+  // 新增样式
+  .media {
+    width: 580px;
+    height: 600px;
+    padding: 30px 50px;
+  }
+  .spec {
+    flex: 1;
+    padding: 30px 30px 30px 0;
+  }
 }
 .goods-footer {
   display: flex;
