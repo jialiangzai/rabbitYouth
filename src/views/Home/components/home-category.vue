@@ -44,7 +44,7 @@
       <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
       <ul v-if="getGoods">
         <li v-for="i in getGoods" :key="i.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/goods/${i.id}`">
             <img :src="i.picture" :alt="i.name" />
             <div class="info">
               <p class="name ellipsis-2">{{ i.name }}</p>

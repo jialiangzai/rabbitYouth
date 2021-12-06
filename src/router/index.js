@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 const Layout = () => import('@/views/Layout/index.vue')
 const Home = () => import('@/views/Home/index.vue')
+const Goods = () => import('@/views/Goods')
 // 创建路由实例
 const routes = [
   {
@@ -10,6 +11,11 @@ const routes = [
       {
         path: '/',
         component: Home
+      },
+      // 商品详情
+      {
+        path: '/goods/:id',
+        component: Goods
       }
     ]
   }

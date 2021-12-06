@@ -6,7 +6,7 @@
     <!-- 主体默认插槽 -->
     <ul ref="pannel" class="goods-list">
       <li v-for="item in listNews" :key="item.id">
-        <router-link to="/">
+        <router-link :to="`/goods/${item.id}`">
           <img v-imglazy="item.picture" alt="" />
           <p class="name">{{ item.name }}</p>
           <p class="price">&yen;{{ item.price }}</p>

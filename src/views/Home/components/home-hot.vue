@@ -2,7 +2,7 @@
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过" ref="target">
     <ul class="goods-list">
       <li v-for="item in goods" :key="item.id">
-        <RouterLink to="/">
+        <RouterLink :to="`/goods/${item.id}`">
           <img v-imglazy="item.picture" :alt="item.alt" />
           <p class="name">{{ item.title }}</p>
           <p class="desc">{{ item.alt }}</p>
