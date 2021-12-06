@@ -15,7 +15,7 @@
       <div class="box">
         <!-- 左侧预览大图片 -->
         <RouterLink class="cover" to="/">
-          <img :src="i.picture" :alt="i.name" />
+          <img v-imglazy="i.picture" :alt="i.name" />
           <strong class="label">
             <span>{{ i.name }}馆</span>
             <span>{{ i.saleInfo }}</span>

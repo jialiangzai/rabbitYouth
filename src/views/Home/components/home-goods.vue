@@ -2,7 +2,7 @@
 <template>
   <div class="goods-item">
     <RouterLink to="/" class="image">
-      <img :src="goods.picture" alt="" />
+      <img v-imglazy="goods.picture" alt="" />
     </RouterLink>
     <p class="name ellipsis-2">{{ goods.name }}</p>
     <p class="desc">{{ goods.desc }}</p>
