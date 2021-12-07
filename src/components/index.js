@@ -8,7 +8,8 @@ import BreadItem from '@/components/Bread/item.vue'
 import City from '@/components/City'
 import Sku from '@/components/Sku'
 import Numbox from '@/components/Numbox'
-const cpp = [Skeleton, Slider, More, Bread, BreadItem, City, Sku, Numbox]
+import Buttons from '@/components/Button'
+const cpp = [Skeleton, Slider, More, Bread, BreadItem, City, Sku, Numbox, Buttons]
 // 批量注册全局组件
 export default {
   // 注意参数是vue实例对象

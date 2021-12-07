@@ -28,6 +28,11 @@
           <GoodsSku :goods="goods" @change="changSku" />
           <!-- 数量 -->
           <XtxNumbox :max="goods.inventory" :min="1" v-model="num" />
+          <!-- 加入购物车 父传子是字符串不能:找不到变量 -->
+          <XtxButton type="large" bg="primary" style="margin-top: 10px;" >
+            <!-- 支持插槽 -->
+            加入购物车
+          </XtxButton>
         </div>
       </div>
       <!-- 商品详情 -->
