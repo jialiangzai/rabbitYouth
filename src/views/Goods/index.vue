@@ -19,11 +19,13 @@
         <div class="media">
           <!-- 预览 -->
           <GoodsImage :imgs="goods.mainPictures" />
-          <GoodsSales />
+          <GoodsSales :goods="goods" />
         </div>
         <!-- 商品信息区 -->
         <div class="spec">
           <GoodsName />
+          <!-- 商品规格 -->
+          <GoodsSku :goods="goods" @change="changSku" />
         </div>
       </div>
       <!-- 商品详情 -->
@@ -67,9 +69,19 @@ export default {
       goods.value = result
     }
     goodsDetail()
+    // sku
+    // 产出当前选择的商品规格信息，如果是完整的sku，产出完整的对象信息，如果不完整，则产出空对象
+    const changSku = (skuObj) => {
+      if (skuObj.skuId) {
+        // 根据不同规格改变不同的价格和库存
+        goods.value.inventory = skuObj.inventory
+        goods.value.oldPrice = skuObj.oldPrice
+        goods.value.price = skuObj.price
+      }
+    }
     return {
-      goods
-
+      goods,
+      changSku
     }
   }
 }

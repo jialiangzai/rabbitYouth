@@ -6,7 +6,8 @@ import More from '@/components/More'
 import Bread from '@/components/Bread'
 import BreadItem from '@/components/Bread/item.vue'
 import City from '@/components/City'
-const cpp = [Skeleton, Slider, More, Bread, BreadItem, City]
+import Sku from '@/components/Sku'
+const cpp = [Skeleton, Slider, More, Bread, BreadItem, City, Sku]
 // 批量注册全局组件
 export default {
   // 注意参数是vue实例对象
