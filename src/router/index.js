@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const Layout = () => import('@/views/Layout/index.vue')
 const Home = () => import('@/views/Home/index.vue')
 const Goods = () => import('@/views/Goods')
+const Login = () => import('@/views/Login')
 // 创建路由实例
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
         component: Goods
       }
     ]
+  },
+  // 登录
+  {
+    path: '/login',
+    component: Login
   }
 ]
 

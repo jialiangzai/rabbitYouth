@@ -9,7 +9,9 @@ import City from '@/components/City'
 import Sku from '@/components/Sku'
 import Numbox from '@/components/Numbox'
 import Buttons from '@/components/Button'
-const cpp = [Skeleton, Slider, More, Bread, BreadItem, City, Sku, Numbox, Buttons]
+
+import CheckBox from '@/components/CheckBox'
+const cpp = [Skeleton, Slider, More, Bread, BreadItem, City, Sku, Numbox, Buttons, CheckBox]
 // 批量注册全局组件
 export default {
   // 注意参数是vue实例对象
