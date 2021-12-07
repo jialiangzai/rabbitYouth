@@ -26,6 +26,8 @@
           <GoodsName />
           <!-- 商品规格 -->
           <GoodsSku :goods="goods" @change="changSku" />
+          <!-- 数量 -->
+          <XtxNumbox />
         </div>
       </div>
       <!-- 商品详情 -->
