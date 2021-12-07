@@ -24,6 +24,7 @@ instance.interceptors.response.use(
     if (error.response && error?.response.status === 401) {
       const redirectUrl = router.currentRoute.value.fullPath
       router.replace(`/login?redirectUrl?${redirectUrl}`)
+      store.dispatch('user/logout')
     }
     return Promise.reject(error)
   }

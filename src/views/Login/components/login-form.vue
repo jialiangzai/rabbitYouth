@@ -2,7 +2,7 @@
   <div class="account-box">
     <Form class="form" :validation-schema="rule" v-slot="{ errors }" ref="fme">
       <!-- 错误信息对象 -->
-      <p>{{ errors }}</p>
+      <!-- <p>{{ errors }}</p> -->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
@@ -39,11 +39,7 @@
       <div class="form-item">
         <div class="agree">
           <!-- <XtxCheckbox /> -->
-          <Field
-            as="XtxCheckbox"
-            name="isAgree"
-            v-model="fm.isAgree"
-                      >
+          <Field as="XtxCheckbox" name="isAgree" v-model="fm.isAgree">
             <!-- 支持插槽 -->
             <span>我已同意</span>
           </Field>
@@ -74,6 +70,10 @@
 import { Form, Field } from 'vee-validate'
 import { reactive, ref } from 'vue-demi'
 import rules from '@/utils/vee-validate-schema'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+// msg提示框
+import msg from '@/components/Message/index.js'
 export default {
   name: 'XtxLoginForm',
   components: {
@@ -81,6 +81,12 @@ export default {
     Field
   },
   setup () {
+    // store实例
+    const store = useStore()
+    // router实例
+    const router = useRouter()
+    // route参数
+    const route = useRoute()
     // 表单数据
     const fm = reactive({
       account: null, // 账号
@@ -105,10 +111,24 @@ export default {
       // valid: false
       // console.log(valid)
       if (valid) {
-        console.log('loading')
+        // console.log('loading')
+        // 掉接口
+        try {
+          await store.dispatch('user/getUse', fm)
+          // 考虑401情况带参数登录后继续浏览
+
+          // 跳转
+          router.replace(route.query.redirectUrl || '/')
+          // 提示
+          msg({ type: 'success', text: '登录成功', time: 2000 })
+        } catch (error) {
+          // 登录失败
+          console.dir(error)
+          msg({ type: 'error', text: error.response.data.message, time: 2000 })
+        }
       }
     }
-    return { fm, rule, fme, submit }
+    return { fm, rule, fme, submit, msg }
   }
 }
 </script>

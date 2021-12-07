@@ -1,3 +1,4 @@
+import { userAccountLogin } from '@/api/use'
 export default {
   namespaced: true,
   // state: {
@@ -17,10 +18,23 @@ export default {
   getters: {
   },
   mutations: {
-    updateToken (state, payload) {
-      state.profile.token = payload
+    // 存储数据
+    setUse (state, payload) {
+      state.profile = payload
+    },
+    // 删除数据
+    delUse (state) {
+      state.profile = {}
     }
   },
   actions: {
+    async getUse ({ commit }, useInfo) {
+      const { result } = await userAccountLogin(useInfo)
+      commit('setUse', result)
+    },
+    // 退出
+    logout ({ commit }) {
+      commit('delUse')
+    }
   }
 }
