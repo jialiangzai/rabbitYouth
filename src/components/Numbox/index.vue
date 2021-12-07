@@ -9,19 +9,48 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue-demi'
+import { ref, watch } from 'vue-demi'
 export default {
   name: 'XtxNumbox',
-  setup () {
+  emits: ['update:modelValue'],
+  props: {
+    // 默认-----可以同步组件内部数据的变化到父组件
+    modelValue: {
+      type: Number,
+      default: 10
+    },
+    max: {
+      type: Number,
+      default: 10
+    },
+    min: {
+      type: Number,
+      default: 1
+    }
+  },
+  setup (props, { emit }) {
     const numcount = ref(1)
     // 加
     const add = () => {
+      if (numcount.value === props.max) {
+        return
+      }
       numcount.value++
+      emit('update:modelValue', numcount.value)
     }
     // 减
     const sub = () => {
+      if (numcount.value === props.min) {
+        return
+      }
       numcount.value--
+      emit('update:modelValue', numcount.value)
     }
+    watch(() => props.modelValue, (newval) => {
+      numcount.value = newval
+    }, {
+      immediate: true
+    })
     return {
       numcount,
       add,

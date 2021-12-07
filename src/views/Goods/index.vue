@@ -27,7 +27,7 @@
           <!-- 商品规格 -->
           <GoodsSku :goods="goods" @change="changSku" />
           <!-- 数量 -->
-          <XtxNumbox />
+          <XtxNumbox :max="goods.inventory" :min="1" v-model="num" />
         </div>
       </div>
       <!-- 商品详情 -->
@@ -61,6 +61,8 @@ export default {
     GoodsName
   },
   setup () {
+    // 数量
+    const num = ref(2)
     const goods = ref({})
     // 依赖注入
     provide('goods', goods)
@@ -83,7 +85,8 @@ export default {
     }
     return {
       goods,
-      changSku
+      changSku,
+      num
     }
   }
 }
