@@ -117,7 +117,16 @@ export default {
         msg({ type: 'success', text: '操作失败' })
       }
     }
-    return { changSingle, changAll }
+    // 删除
+    const delCart = async (good) => {
+      try {
+        const res = await store.dispatch('cart/delCartSingActions', good)
+        msg({ type: 'success', text: res })
+      } catch (error) {
+        msg({ type: 'success', text: '操作失败' })
+      }
+    }
+    return { changSingle, changAll, delCart }
   }
 }
 </script>

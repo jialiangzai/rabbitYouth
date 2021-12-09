@@ -42,10 +42,16 @@ export default {
       // state.cart[currentIndex].selected = sel
       state.cart.find(item => item.skuId === good.skuId).selected = sel
     },
+    // 全选
     AllChe (state, sel) {
       state.cart.forEach(item => {
         item.selected = sel
       })
+    },
+    // 删除
+    delCartSing (state, good) {
+      const currentIndex = state.cart.findIndex(item => item.skuId === good.skuId)
+      state.cart.splice(currentIndex, 1)
     }
   },
   actions: {
@@ -75,6 +81,16 @@ export default {
         // 调接口---存储数据库
       } else {
         commit('AllChe', sel)
+        return '操作成功'
+      }
+    },
+    // 删除
+    async delCartSingActions ({ commit, rootState }, good) {
+      // 判断状态
+      if (rootState.user.profile.token) {
+        // 调接口---存储数据库
+      } else {
+        commit('delCartSing', good)
         return '操作成功'
       }
     }
