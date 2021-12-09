@@ -162,7 +162,7 @@ export default {
       store.dispatch('cart/findCartList')
       router.push(`/pay?id=${result.id}`)
     }
-    return { getDetail, orderDetail, curAddress, addOrder }
+    return { orderDetail, curAddress, addOrder }
   }
 }
 </script>
