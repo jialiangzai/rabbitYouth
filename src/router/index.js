@@ -3,6 +3,7 @@ const Layout = () => import('@/views/Layout/index.vue')
 const Home = () => import('@/views/Home/index.vue')
 const Goods = () => import('@/views/Goods')
 const Login = () => import('@/views/Login')
+const Cart = () => import('@/views/Cart')
 // 创建路由实例
 const routes = [
   {
@@ -17,6 +18,10 @@ const routes = [
       {
         path: '/goods/:id',
         component: Goods
+      },
+      {
+        path: '/cart',
+        component: Cart
       }
     ]
   },

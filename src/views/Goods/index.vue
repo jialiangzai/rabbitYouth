@@ -115,7 +115,7 @@ export default {
         msg({ type: 'warn', text: '库存不足' })
       }
       // 实现加入购物车---准备单个商品类对象
-      const CartDetailSing = ref({
+      const CartDetailSing = {
         id: goods.value.id,
         name: goods.value.name,
         picture: goods.value.mainPictures[0],
@@ -125,9 +125,10 @@ export default {
         attrsText: skus.value.specsText,
         stock: skus.value.inventory,
         selected: true,
+        // 有效期
         isEffective: true,
         count: num.value
-      })
+      }
       try {
         const res = await store.dispatch('cart/addCartListActions', CartDetailSing)
         msg({ type: 'success', text: res })

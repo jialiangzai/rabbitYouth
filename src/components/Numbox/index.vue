@@ -1,6 +1,6 @@
 <template>
   <div class="xtx-numbox">
-    <div class="label">数量</div>
+    <div class="label" v-if="isShow">数量</div>
     <div class="numbox">
       <a href="javascript:;" @click="sub">-</a>
       <input type="text" readonly :value="numcount" />
@@ -14,6 +14,11 @@ export default {
   name: 'XtxNumbox',
   emits: ['update:modelValue'],
   props: {
+    // 显示
+    isShow: {
+      type: Boolean,
+      default: true
+    },
     // 默认-----可以同步组件内部数据的变化到父组件
     modelValue: {
       type: Number,

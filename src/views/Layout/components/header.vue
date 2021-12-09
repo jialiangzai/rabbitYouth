@@ -8,10 +8,12 @@
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜" />
       </div>
+      <!-- 购物车图标 -->
       <div class="cart">
-        <a class="curr" href="#">
-          <i class="iconfont icon-cart"></i><em>2</em>
-        </a>
+        <router-link class="curr" to="/cart">
+          <i class="iconfont icon-cart"></i
+          ><em>{{ $store.getters["cart/effectiveList"].length }}</em>
+        </router-link>
       </div>
     </div>
   </header>

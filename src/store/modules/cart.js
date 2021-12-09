@@ -8,6 +8,22 @@ export default {
     cart: []
   }),
   getters: {
+    // 1. 有效商品列表 =》无效商品（没库存或下架了）
+    // 2. 选中的购物车商品数据
+    // 3. 选中商品总价
+    // 4. 购物车中有效商品是否是全部选中状态
+    effectiveList: (state) => {
+      return state.cart.filter(item => item.isEffective)
+    },
+    selectedList: (state, getters) => {
+      return getters.effectiveList.filter(item => item.selected)
+    },
+    allSelectedPrice: (state, getters) => {
+      return getters.selectedList.reduce((a, c) => (a += c.count * c.nowPrice), 0)
+    },
+    isAll: (state, getters) => {
+      return getters.effectiveList.every(item => item.selected)
+    }
   },
   mutations: {
     // 加入购物车 // 看skuId唯一标识是否一致如果一致数量加一
@@ -18,15 +34,33 @@ export default {
       } else {
         state.cart.unshift(good)
       }
+    },
+    // 单选
+    // 第二个参数表示调用时候传递的参数可以解构
+    SingleChe (state, { good, sel }) {
+      // const currentIndex = state.cart.findIndex(item => item.skuId === good.skuId)
+      // state.cart[currentIndex].selected = sel
+      state.cart.find(item => item.skuId === good.skuId).selected = sel
     }
   },
   actions: {
+    // 加入
     async addCartListActions ({ commit, rootState }, good) {
       // 判断状态
       if (rootState.user.profile.token) {
         // 调接口---存储数据库
       } else {
         commit('addCartList', good)
+        return '加入购物车成功'
+      }
+    },
+    // 单选
+    async SingleCheActions ({ commit, rootState }, { good, sel }) {
+      // 判断状态
+      if (rootState.user.profile.token) {
+        // 调接口---存储数据库
+      } else {
+        commit('SingleChe', { good, sel })
         return '加入购物车成功'
       }
     }
