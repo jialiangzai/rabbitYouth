@@ -41,6 +41,11 @@ export default {
       // const currentIndex = state.cart.findIndex(item => item.skuId === good.skuId)
       // state.cart[currentIndex].selected = sel
       state.cart.find(item => item.skuId === good.skuId).selected = sel
+    },
+    AllChe (state, sel) {
+      state.cart.forEach(item => {
+        item.selected = sel
+      })
     }
   },
   actions: {
@@ -61,7 +66,16 @@ export default {
         // 调接口---存储数据库
       } else {
         commit('SingleChe', { good, sel })
-        return '加入购物车成功'
+      }
+    },
+    // 全选
+    async AllCheActions ({ commit, rootState }, sel) {
+      // 判断状态
+      if (rootState.user.profile.token) {
+        // 调接口---存储数据库
+      } else {
+        commit('AllChe', sel)
+        return '操作成功'
       }
     }
   }

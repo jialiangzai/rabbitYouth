@@ -9,7 +9,11 @@
         <table>
           <thead>
             <tr>
-              <th width="120"><XtxCheckbox>全选</XtxCheckbox></th>
+              <th width="120">
+                <XtxCheckbox :modelValue="isAll" @update:modelValue="changAll"
+                  >全选</XtxCheckbox
+                >
+              </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
               <th width="180">数量</th>
@@ -85,6 +89,7 @@
 </template>
 <script>
 import { mapGetters, useStore } from 'vuex'
+import msg from '@/components/Message/index'
 export default {
   name: 'XtxCartPage',
   computed: {
@@ -97,11 +102,22 @@ export default {
   },
   setup () {
     const store = useStore()
-    const changSingle = (good, sel) => {
+    // 单选
+    const changSingle = async (good, sel) => {
       // vuex中actions
-      store.dispatch('cart/SingleCheActions', { good, sel })
+      await store.dispatch('cart/SingleCheActions', { good, sel })
     }
-    return { changSingle }
+    // 全选
+    const changAll = async (sel) => {
+      // vuex中actions
+      try {
+        const res = await store.dispatch('cart/AllCheActions', sel)
+        msg({ type: 'success', text: res })
+      } catch (error) {
+        msg({ type: 'success', text: '操作失败' })
+      }
+    }
+    return { changSingle, changAll }
   }
 }
 </script>
