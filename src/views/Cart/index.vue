@@ -52,15 +52,13 @@
               </td>
               <td class="tc">
                 <XtxNumbox
-                  :model-value="i.count"
+                  :modelValue="i.count"
                   :isShow="false"
-                  @change="(num) => numChange(i, num)"
+                  @update:modelValue="numChange(i, $event)"
                 />
               </td>
               <td class="tc">
-                <p class="f16 red">
-                  &yen;{{ (i.nowPrice * i.count).toFixed(2) }}
-                </p>
+                <p class="f16 red">&yen;{{ i.nowPrice * i.count }}</p>
               </td>
               <td class="tc">
                 <p>
@@ -126,7 +124,12 @@ export default {
         msg({ type: 'success', text: '操作失败' })
       }
     }
-    return { changSingle, changAll, delCart }
+    // 修改数量
+    const numChange = async (good, num) => {
+      // vuex中actions
+      await store.dispatch('cart/countChangActions', { good, num })
+    }
+    return { changSingle, changAll, delCart, numChange }
   }
 }
 </script>

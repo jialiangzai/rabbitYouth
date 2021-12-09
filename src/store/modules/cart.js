@@ -52,6 +52,10 @@ export default {
     delCartSing (state, good) {
       const currentIndex = state.cart.findIndex(item => item.skuId === good.skuId)
       state.cart.splice(currentIndex, 1)
+    },
+    // 修改数量
+    countChang (state, { good, num }) {
+      state.cart.find(item => item.skuId === good.skuId).count = num
     }
   },
   actions: {
@@ -92,6 +96,16 @@ export default {
       } else {
         commit('delCartSing', good)
         return '操作成功'
+      }
+    },
+    // 修改数量
+    async countChangActions ({ commit, rootState }, { good, num }) {
+      // 判断状态
+      if (rootState.user.profile.token) {
+        // 调接口---存储数据库
+      } else {
+        console.log(good, num)
+        commit('countChang', { good, num })
       }
     }
   }
