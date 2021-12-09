@@ -58,7 +58,9 @@
                 />
               </td>
               <td class="tc">
-                <p class="f16 red">&yen;{{ i.nowPrice * i.count }}</p>
+                <p class="f16 red">
+                  &yen;{{ (i.nowPrice * i.count).toFixed(2) }}
+                </p>
               </td>
               <td class="tc">
                 <p>

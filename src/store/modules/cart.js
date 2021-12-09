@@ -1,5 +1,5 @@
 
-import { mergeLocalCart, findCartList } from '@/api/cart.js'
+import { mergeLocalCart, findCartList, insertCart, deleteCart, updateCart, checkAllCart } from '@/api/cart.js'
 
 export default {
   namespaced: true,
@@ -67,54 +67,72 @@ export default {
   },
   actions: {
     // 加入
-    async addCartListActions ({ commit, rootState }, good) {
+    async addCartListActions ({ commit, rootState, dispatch }, good) {
       // 判断状态
       if (rootState.user.profile.token) {
         // 调接口---存储数据库
+        await insertCart(good)
+        // 拉新
+        await dispatch('findCartList')
+        return '加入购物车成功'
       } else {
         commit('addCartList', good)
         return '加入购物车成功'
       }
     },
     // 单选
-    async SingleCheActions ({ commit, rootState }, { good, sel }) {
+    async SingleCheActions ({ commit, rootState, dispatch }, { good, sel }) {
       // 判断状态
       if (rootState.user.profile.token) {
         // 调接口---存储数据库
+        await updateCart({ ...good, selected: sel })
+        await dispatch('findCartList')
       } else {
         commit('SingleChe', { good, sel })
       }
     },
     // 全选
-    async AllCheActions ({ commit, rootState }, sel) {
+    async AllCheActions ({ commit, rootState, dispatch, getters }, sel) {
       // 判断状态
       if (rootState.user.profile.token) {
         // 调接口---存储数据库
+        // ids有效商品skuId集合
+        const ids = getters.effectiveList.map(item => item.skuId)
+        await checkAllCart({ selected: sel, ids })
+        await dispatch('findCartList')
+        return '操作成功'
       } else {
         commit('AllChe', sel)
         return '操作成功'
       }
     },
     // 删除
-    async delCartSingActions ({ commit, rootState }, good) {
+    async delCartSingActions ({ commit, rootState, dispatch }, good) {
       // 判断状态
       if (rootState.user.profile.token) {
         // 调接口---存储数据库
+        await deleteCart([good.skuId])
+        // 拉新
+        await dispatch('findCartList')
+        return '操作成功'
       } else {
         commit('delCartSing', good)
         return '操作成功'
       }
     },
     // 修改数量
-    async countChangActions ({ commit, rootState }, { good, num }) {
+    async countChangActions ({ commit, rootState, dispatch }, { good, num }) {
       // 判断状态
       if (rootState.user.profile.token) {
         // 调接口---存储数据库
+        await updateCart({ ...good, count: num })
+        // 拉新
+        await dispatch('findCartList')
       } else {
-        console.log(good, num)
         commit('countChang', { good, num })
       }
     },
+    // 获取最新购物车
     async findCartList ({ commit }) {
       // 最新的
       const { result } = await findCartList()
