@@ -35,6 +35,8 @@ export default {
     // 退出
     logout ({ commit }) {
       commit('delUse')
+      // 清空购物车重要防止无效叠加
+      commit('cart/setListCart', [], { root: true })
     }
   }
 }
