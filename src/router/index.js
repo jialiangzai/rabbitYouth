@@ -6,6 +6,7 @@ const Login = () => import('@/views/Login')
 const Cart = () => import('@/views/Cart')
 const Settlement = () => import('@/views/Member/settlement')
 const Order = () => import('@/views/Member/order')
+const Pay = () => import('@/views/Member/pay/index')
 // 创建路由实例
 const routes = [
   {
@@ -32,7 +33,8 @@ const routes = [
       {
         path: '/order',
         component: Order
-      }
+      },
+      { path: '/pay', component: Pay }
     ]
   },
   // 登录

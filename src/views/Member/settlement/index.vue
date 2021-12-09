@@ -92,34 +92,42 @@
             </dl>
             <dl>
               <dt>商品总价：</dt>
-              <dd>¥{{ orderDetail.summary.totalPrice }}</dd>
+              <dd>¥{{ orderDetail.summary.totalPrice.toFixed(2) }}</dd>
             </dl>
             <dl>
               <dt>运<i></i>费：</dt>
-              <dd>¥{{ orderDetail.summary.postFee }}</dd>
+              <dd>¥{{ orderDetail.summary.postFee.toFixed(2) }}</dd>
             </dl>
             <dl>
               <dt>应付总额：</dt>
-              <dd class="price">¥{{ orderDetail.summary.totalPayPrice }}</dd>
+              <dd class="price">
+                ¥{{ orderDetail.summary.totalPayPrice.toFixed(2) }}
+              </dd>
             </dl>
           </div>
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <XtxButton type="primary">提交订单</XtxButton>
+          <XtxButton type="middle" bg="primary" @click="addOrder"
+            >提交订单</XtxButton
+          >
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { findCheckoutInfo } from '@/api/order'
-import { ref } from 'vue'
+import { findCheckoutInfo, createOrder } from '@/api/order'
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
   name: 'XtxPayCheckoutPage',
   setup () {
     const orderDetail = ref({})
     const curAddress = ref(null)
+    const router = useRouter()
+    const store = useStore()
     const getDetail = async () => {
       const { result } = await findCheckoutInfo()
       orderDetail.value = result
@@ -127,7 +135,34 @@ export default {
       curAddress.value = orderDetail.value.userAddresses[0]
     }
     getDetail()
-    return { getDetail, orderDetail, curAddress }
+    // 提交订单
+    const addOrder = async () => {
+      /**
+      * 提交订单
+      * @param {Object} order - 订单信息对象
+      *  deliveryTimeType: 1, 配送时间类型，1为不限，2为工作日，3为双休或假日
+      *  payType: 1, 支付方式，1为在线支付，2为货到付款
+      *  buyerMessage: '', 买家留言
+      *  addressId: null, // 地址id
+      *  goods: [] // { skuId, count } 由所有商品的skuId 和 count字段组成的数组
+      */
+      const reqData = reactive(
+        {
+          deliveryTimeType: 1,
+          payType: 1,
+          buyerMessage: '',
+          addressId: '1429265915203031042', // 地址id(测试)
+          goods: [] // {skuId, count}
+        }
+      )
+      reqData.goods = orderDetail.value.goods.map(({ skuId, count }) => ({ skuId, count }))
+      const { result } = await createOrder(reqData)
+      // console.log('res', result)
+      // 当购物车中的商品下单后就会在后台清除对应的。。。。客户端要重新刷新最新的购物车
+      store.dispatch('cart/findCartList')
+      router.push(`/pay?id=${result.id}`)
+    }
+    return { getDetail, orderDetail, curAddress, addOrder }
   }
 }
 </script>
