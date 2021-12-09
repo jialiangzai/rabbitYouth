@@ -4,6 +4,8 @@ const Home = () => import('@/views/Home/index.vue')
 const Goods = () => import('@/views/Goods')
 const Login = () => import('@/views/Login')
 const Cart = () => import('@/views/Cart')
+const Settlement = () => import('@/views/Member/settlement')
+const Order = () => import('@/views/Member/order')
 // 创建路由实例
 const routes = [
   {
@@ -22,6 +24,14 @@ const routes = [
       {
         path: '/cart',
         component: Cart
+      },
+      {
+        path: '/settlement',
+        component: Settlement
+      },
+      {
+        path: '/order',
+        component: Order
       }
     ]
   },
