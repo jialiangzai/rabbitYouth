@@ -9,3 +9,9 @@ import request from '@/utils/request'
 export const findOrderList = ({ page = 1, pageSize = 10, orderState = 0 }) => {
   return request('/member/order', 'get', { page, pageSize, orderState })
 }
+/**
+ * 获取结算信息
+ */
+export const findCheckoutInfo = () => {
+  return request('/member/order/pre', 'get')
+}
