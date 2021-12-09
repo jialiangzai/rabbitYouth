@@ -1,7 +1,7 @@
 // 实现使用函数调用xtx-message组件的逻辑
 import { createVNode, render } from 'vue'
 import XtxMessage from './index.vue'
-
+// msg({ type:'success', text:''})
 // 2. 导出使用方法
 export default ({ type, text, time = 2000 }) => {
   // if (vnode) return

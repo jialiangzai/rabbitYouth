@@ -29,7 +29,12 @@
           <!-- 数量 -->
           <XtxNumbox :max="goods.inventory" :min="1" v-model="num" />
           <!-- 加入购物车 父传子是字符串不能:找不到变量 -->
-          <XtxButton type="large" bg="primary" style="margin-top: 10px">
+          <XtxButton
+            type="large"
+            bg="primary"
+            style="margin-top: 10px"
+            @click="goCart"
+          >
             <!-- 支持插槽 -->
             加入购物车
           </XtxButton>
@@ -58,10 +63,11 @@ import { findGoods } from '@/api/goods'
 import { useRoute } from 'vue-router'
 // 预览区
 import GoodsImage from './components/goods-image.vue'
-import { ref } from 'vue-demi'
-import { provide } from 'vue'
+import { ref, provide } from 'vue'
 import GoodsSales from './components/goods-sales.vue'
 import GoodsName from './components/goods-name.vue'
+import { useStore } from 'vuex'
+import msg from '@/components/Message/index'
 export default {
   name: 'XtxGoodsPage',
   components: {
@@ -71,11 +77,13 @@ export default {
   },
   setup () {
     // 数量
-    const num = ref(2)
+    const num = ref(1)
     const goods = ref({})
     // 依赖注入
     provide('goods', goods)
     const route = useRoute()
+    const store = useStore()
+    const skus = ref(null)
     const goodsDetail = async () => {
       const { result } = await findGoods(route.params.id)
       console.log('当前商品信息', result)
@@ -90,12 +98,48 @@ export default {
         goods.value.inventory = skuObj.inventory
         goods.value.oldPrice = skuObj.oldPrice
         goods.value.price = skuObj.price
+        skus.value = skuObj
+        console.log('skus', skus)
+      } else {
+        // sku无效的时候清空避免有上次sku数据
+        skus.value = null
+      }
+    }
+    // 点击加入购物车   有效sku  库存不为0
+    const goCart = async () => {
+      // 根据唯一标识
+      if (!skus.value.skuId) {
+        msg({ type: 'warn', text: '请选择商品规格' })
+      }
+      if (skus.value.inventory === 0) {
+        msg({ type: 'warn', text: '库存不足' })
+      }
+      // 实现加入购物车---准备单个商品类对象
+      const CartDetailSing = ref({
+        id: goods.value.id,
+        name: goods.value.name,
+        picture: goods.value.mainPictures[0],
+        skuId: skus.value.skuId,
+        price: skus.value.oldPrice,
+        nowPrice: skus.value.price,
+        attrsText: skus.value.specsText,
+        stock: skus.value.inventory,
+        selected: true,
+        isEffective: true,
+        count: num.value
+      })
+      try {
+        const res = await store.dispatch('cart/addCartListActions', CartDetailSing)
+        msg({ type: 'success', text: res })
+      } catch (error) {
+        msg({ type: 'error', text: '加入购物车失败' })
       }
     }
     return {
       goods,
       changSku,
-      num
+      num,
+      goCart
     }
   }
 }

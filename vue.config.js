@@ -1,5 +1,8 @@
 const path = require('path')
 module.exports = {
+  chainWebpack: config => {
+    config.devServer.disableHostCheck(true)
+  },
   lintOnSave: true,
 
   // 打包后可以部署到任意目录
