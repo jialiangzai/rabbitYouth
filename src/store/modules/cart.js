@@ -1,3 +1,6 @@
+
+import { mergeLocalCart, findCartList } from '@/api/cart.js'
+
 export default {
   namespaced: true,
   // state: {
@@ -56,6 +59,10 @@ export default {
     // 修改数量
     countChang (state, { good, num }) {
       state.cart.find(item => item.skuId === good.skuId).count = num
+    },
+    // 合并存储登录后的
+    setListCart (state, list) {
+      state.cart = list
     }
   },
   actions: {
@@ -107,6 +114,27 @@ export default {
         console.log(good, num)
         commit('countChang', { good, num })
       }
+    },
+    async findCartList ({ commit }) {
+      // 最新的
+      const { result } = await findCartList()
+      commit('setListCart', result)
+    },
+    // 登录后合并本地购物车
+    async mergeCart ({ state, dispatch }) {
+      // 判断本地是否存在购物车
+      if (state.cart.length) {
+        // 存储数据库--合并本地
+        // * @param { Array < object >} cartList - 本地购物车数组
+        //   * @param { String } item.skuId - 商品skuId
+        //     * @param { Boolean } item.selected - 是否选中
+        //       * @param { Integer } item.count - 数量
+        const reqDa = state.cart.map(({ skuId, selected, count }) => ({ skuId, selected, count }))
+        await mergeLocalCart(reqDa)
+        // 虽然数据库更新最新的购物车，本地还是旧的，，同步
+      }
+      // setListCart
+      await dispatch('findCartList')
     }
   }
 }

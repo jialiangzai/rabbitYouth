@@ -116,7 +116,8 @@ export default {
         try {
           await store.dispatch('user/getUse', fm)
           // 考虑401情况带参数登录后继续浏览
-
+          // 更新购物车
+          await store.dispatch('cart/mergeCart')
           // 跳转
           router.replace(route.query.redirectUrl || '/')
           // 提示
